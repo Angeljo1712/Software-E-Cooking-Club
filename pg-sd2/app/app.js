@@ -1,6 +1,6 @@
 // Import express.js
 const express = require("express");
-
+const PORT = 3000;
 // Create express app
 var app = express();
 
@@ -25,29 +25,24 @@ app.get("/roehampton", function(req, res) {
 
 
 // Create a route for testing the db
-/**app.get("/db_test", function(req, res) {
+app.get("/sd2-db", function(req, res) {
     // Assumes a table called test_table exists in your database
     sql = 'select * from test_table';
     db.query(sql).then(results => {
         console.log(results);
         res.send(results)
     });
-});**/
+});
 
 
-app.get("/db_test/:id", function(req, res) {
+/*/app.get("/db_test/:id", function(req, res) {
     let id = req.params.id;
     let sql = `SELECT name FROM users WHERE id = ?`; // Filtra por ID
     db.query(sql, [id], (err, result) => {
         if (err) throw err;
         res.send(`<h1>User: ${result[0].name}</h1>`);
     });
-});
-
-
-
-
-
+});/*/
 
 
 
@@ -91,6 +86,7 @@ app.get("/student/:name/:id", function(req, res) {
 
 // Start server on port 3000
 app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000/student/angel/5678`);
+    console.log(`Server running at http://127.0.0.1:3000/sd2-db
+`);
 });
 
