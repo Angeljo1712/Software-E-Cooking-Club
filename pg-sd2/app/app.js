@@ -1,26 +1,102 @@
 // Import express.js
 const express = require("express");
-const PORT = 3000;
+// Get the functions in the db.js file to use
+const db = require('./services/db');
 // Create express app
 var app = express();
-
+//Create Port
+const PORT = 3000;
 // Add static files location
 app.use(express.static("static"));
 
-// Get the functions in the db.js file to use
-const db = require('./services/db');
 
 // Create a route for root - /
 app.get("/", function(req, res) {
-    res.send("Hello Angel!");
+    res.send("Hello World from Node Js!");
 });
 
-
+// Create a route for /roehampton
 app.get("/roehampton", function(req, res) {
     console.log(req.url);
     let path = req.url;
     res.send(path.substring(0,3)); // Devuelve "/ro"
 });
+
+// Create a route for Estudents no table
+/*/app.get('/students', async (req, res) => {
+    try {
+        const students = await db.query("SELECT * FROM Students");
+        res.json(students);
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching students" });
+    }
+});/*/
+
+//Show students in an HTML table
+/*/app.get('/students-table', async (req, res) => {
+    try {
+        const students = await db.query("SELECT * FROM Students");
+        let html = `<h1>Student List</h1><table border='1'><tr><th>ID</th><th>Name</th></tr>`;
+        students.forEach(student => {
+            html += `<tr><td>${student.id}</td><td><a href='/student/${student.id}'>${student.name}</a></td></tr>`;
+        });
+        html += "</table>";
+        res.send(html);
+    } catch (error) {
+        res.status(500).send("Error fetching students");
+    }
+});/*/
+
+
+/*/app.get('/student/:id', async (req, res) => {
+    try {
+        const student = await db.query("SELECT * FROM Students WHERE id = ?", [req.params.id]);
+        if (student.length === 0) {
+            return res.status(404).send("Student not found");
+        }
+
+        let html = `<h1>${student[0].name}</h1>`;
+        html += "<h2>Programme</h2>";
+
+        const programme = await db.query(`
+            SELECT Programmes.name 
+            FROM Student_Programme 
+            JOIN Programmes ON Student_Programme.programme = Programmes.id 
+            WHERE Student_Programme.id = ?`, [req.params.id]);
+
+        if (programme.length > 0) {
+            html += `<p>${programme[0].name}</p>`;
+        }
+
+        res.send(html);
+    } catch (error) {
+        res.status(500).send("Error fetching student details");
+    }
+});/*/
+
+
+app.get('/programmes', async (req, res) => {
+    const programmes = await db.query("SELECT * FROM Programmes");
+    res.json(programmes);
+});
+
+app.get('/programmes-table', async (req, res) => {
+    const programmes = await db.query("SELECT * FROM Programmes");
+    let html = `<h1>Programme List</h1><table border='1'><tr><th>ID</th><th>Name</th></tr>`;
+    programmes.forEach(programme => {
+        html += `<tr><td>${programme.id}</td><td><a href='/programme/${programme.id}'>${programme.name}</a></td></tr>`;
+    });
+    html += "</table>";
+    res.send(html);
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -42,7 +118,7 @@ app.get("/sd2-db", function(req, res) {
         if (err) throw err;
         res.send(`<h1>User: ${result[0].name}</h1>`);
     });
-});/*/
+});
 
 
 
@@ -83,10 +159,14 @@ app.get("/student/:name/:id", function(req, res) {
 
 
 
+app.listen(PORT,  () => {
+    console.log(`Server running on http://127.0.0.1:${PORT}`);
+});
+
+
 
 // Start server on port 3000
-app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000/sd2-db
-`);
-});
+/**app.listen(3000,function(){
+    console.log(`Server running at http://127.0.0.1:3000`);
+});**/
 
