@@ -1,18 +1,26 @@
 // Import express.js
 const express = require("express");
-// Get the functions in the db.js file to use
-const db = require('./services/db');
+
 // Create express app
 var app = express();
-//Create Port
-const PORT = 3000;
+
 // Add static files location
 app.use(express.static("static"));
+
+//Create Port
+const PORT = 3000;
+
+// Get the functions in the db.js file to use
+const db = require('./services/db');
+
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
 
 
 // Create a route for root - /
 app.get("/", function(req, res) {
-    res.send("Hello World from Node Js!");
+    res.render("index", {'title': 'My index page', 'heading': 'My heading'});
 });
 
 // Create a route for /roehampton
