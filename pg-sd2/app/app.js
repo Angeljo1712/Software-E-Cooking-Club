@@ -20,7 +20,14 @@ app.set('views', './app/views');
 
 // Create a route for root - /
 app.get("/", function(req, res) {
-    res.render("index", {'title': 'My index page', 'heading': 'My heading'});
+    var test_data = ['one', 'two', 'three', 'four'];
+    res.render("mypage", {'title': 'My index page', 'heading': 'My heading', 'data': test_data});
+});
+
+// Create a route for root - /
+app.get("/", function(req, res) {
+    var test_data = ['one', 'two', 'three', 'four'];
+    res.render("index", {'title': 'My index page', 'heading': 'My heading', 'data': test_data});
 });
 
 // Create a route for /roehampton
@@ -30,20 +37,25 @@ app.get("/roehampton", function(req, res) {
     res.send(path.substring(0,3)); // Devuelve "/ro"
 });
 
+
+
 // Create a route for Estudents no table
-/*/app.get('/students', async (req, res) => {
+app.get('/students-table', async (req, res) => {
     try {
         const students = await db.query("SELECT * FROM Students");
-        res.json(students);
+        res.render('students-table', { students }); // Renderiza correctamente la vista
     } catch (error) {
+        console.error("Database Error:", error);
         res.status(500).json({ error: "Error fetching students" });
     }
-});/*/
+});
+
 
 //Show students in an HTML table
 /*/app.get('/students-table', async (req, res) => {
     try {
         const students = await db.query("SELECT * FROM Students");
+        console.log(students);
         let html = `<h1>Student List</h1><table border='1'><tr><th>ID</th><th>Name</th></tr>`;
         students.forEach(student => {
             html += `<tr><td>${student.id}</td><td><a href='/student/${student.id}'>${student.name}</a></td></tr>`;
@@ -51,12 +63,13 @@ app.get("/roehampton", function(req, res) {
         html += "</table>";
         res.send(html);
     } catch (error) {
+        console.error("Database Error:", error);
         res.status(500).send("Error fetching students");
     }
-});/*/
+});
 
 
-/*/app.get('/student/:id', async (req, res) => {
+app.get('/student/:id', async (req, res) => {
     try {
         const student = await db.query("SELECT * FROM Students WHERE id = ?", [req.params.id]);
         if (student.length === 0) {
@@ -80,7 +93,7 @@ app.get("/roehampton", function(req, res) {
     } catch (error) {
         res.status(500).send("Error fetching student details");
     }
-});/*/
+});
 
 
 app.get('/programmes', async (req, res) => {

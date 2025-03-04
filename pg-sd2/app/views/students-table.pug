@@ -1,0 +1,14 @@
+extends layout  
+
+block content
+    h1 Student List
+    table(border='1')
+        tr
+            th ID
+            th Name
+        // Itera sobre la lista de estudiantes
+        each student in students  
+            tr
+                td #{student.id}
+                td 
+                    a(href='/student/' + student.id) #{student.name}
