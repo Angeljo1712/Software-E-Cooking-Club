@@ -1,6 +1,7 @@
 require("dotenv").config();
-
 const mysql = require('mysql2/promise');
+
+
 
 const config = {
   db: { /* do not put password or any sensitive info here, done only for demo */
@@ -14,7 +15,9 @@ const config = {
     queueLimit: 0,
   },
 };
-  
+
+
+
 const pool = mysql.createPool(config.db);
 
 // Utility function to query the database
