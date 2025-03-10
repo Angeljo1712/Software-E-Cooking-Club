@@ -1,48 +1,50 @@
-// Import express.js
+// Import dependencies
 const express = require("express");
+const db = require("./services/db"); // Import MySQL connection
+const usersRoutes = require("./routes/users");
+const recipesRoutes = require("./routes/recipes");
 
-// Create express app
-var app = express();
+const app = express();
 
-// Add static files location
+// Configure Pug as the template engine
+app.set("view engine", "pug");
+app.set("views", "./app/views");
+
+// Middleware for serving static files (CSS, images, JS)
 app.use(express.static("static"));
 
-// Get the functions in the db.js file to use
-const db = require('./services/db');
+// Middleware to handle data submitted via forms
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Create a route for root - /
-app.get("/", function(req, res) {
-    res.send("Hello world!");
+// Main route
+app.get("/", (req, res) => {
+    res.render("index", { title: "Home - Cooking Club" });
 });
 
-// Create a route for testing the db
-app.get("/db_test", function(req, res) {
-    // Assumes a table called test_table exists in your database
-    sql = 'select * from test_table';
-    db.query(sql).then(results => {
+// Route to test database connection
+app.get("/db_test", async (req, res) => {
+    try {
+        const results = await db.query("SELECT * FROM users");
         console.log(results);
-        res.send(results)
-    });
+        res.json(results);
+    } catch (error) {
+        console.error("❌ Database connection error:", error);
+        res.status(500).send("Database connection error.");
+    }
 });
 
-// Create a route for /goodbye
-// Responds to a 'GET' request
-app.get("/goodbye", function(req, res) {
-    res.send("Goodbye world!");
+// Import routes from modules
+app.use("/users", usersRoutes);
+app.use("/recipes", recipesRoutes);
+
+// Middleware to handle not found routes
+app.use((req, res) => {
+    res.status(404).send("❌ Page not found.");
 });
 
-// Create a dynamic route for /hello/<name>, where name is any value provided by user
-// At the end of the URL
-// Responds to a 'GET' request
-app.get("/hello/:name", function(req, res) {
-    // req.params contains any parameters in the request
-    // We can examine it in the console for debugging purposes
-    console.log(req.params);
-    //  Retrieve the 'name' parameter and use it in a dynamically generated page
-    res.send("Hello " + req.params.name);
-});
-
-// Start server on port 3000
-app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000/`);
+// Start the server on port 3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Server running at http://127.0.0.1:${PORT}/`);
 });

@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title Cooking Club - Users
+    link(rel="stylesheet", href="/styles.css") 
+  body
+    h1 👨‍🍳 User List
+    table(border="1")
+      thead
+        tr
+          th ID
+          th Username
+          th First Name
+          th Last Name
+          th Email
+          th Role
+      tbody
+        each user in users
+          tr
+            td= user.user_id
+            td= user.username
+            td= user.first_name
+            td= user.last_name
+            td= user.email
+            td= user.role
