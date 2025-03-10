@@ -20,7 +20,7 @@ html
           tr
             td= recipe.recipe_id
             td
-              a(href="/recipe/" + recipe.recipe_id)= recipe.title
+              a(href=`/recipes/${recipe.recipe_id}`)= recipe.title
             td= recipe.description
             td= recipe.ingredients
             td= recipe.steps
