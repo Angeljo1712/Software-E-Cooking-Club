@@ -1,50 +1,50 @@
-// Importar dependencias
+// Import dependencies
 const express = require("express");
-const db = require("./services/db"); // Importar conexión a MySQL
+const db = require("./services/db"); // Import MySQL connection
 const usersRoutes = require("./routes/users");
 const recipesRoutes = require("./routes/recipes");
 
 const app = express();
 
-// Configurar Pug como motor de plantillas
+// Configure Pug as the template engine
 app.set("view engine", "pug");
 app.set("views", "./app/views");
 
-// Middleware para archivos estáticos (CSS, imágenes, JS)
+// Middleware for serving static files (CSS, images, JS)
 app.use(express.static("static"));
 
-// Middleware para manejar datos enviados en formularios
+// Middleware to handle data submitted via forms
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ruta principal
+// Main route
 app.get("/", (req, res) => {
-    res.send("✅ Servidor en ejecución.");
+    res.render("index", { title: "Home - Cooking Club" });
 });
 
-// Ruta para probar conexión a la BD
+// Route to test database connection
 app.get("/db_test", async (req, res) => {
     try {
         const results = await db.query("SELECT * FROM users");
         console.log(results);
         res.json(results);
     } catch (error) {
-        console.error("❌ Error en la conexión a la base de datos:", error);
-        res.status(500).send("Error en la conexión a la base de datos.");
+        console.error("❌ Database connection error:", error);
+        res.status(500).send("Database connection error.");
     }
 });
 
-// Importar rutas desde los módulos
+// Import routes from modules
 app.use("/users", usersRoutes);
 app.use("/recipes", recipesRoutes);
 
-// Middleware para manejar rutas no encontradas
+// Middleware to handle not found routes
 app.use((req, res) => {
-    res.status(404).send("❌ Página no encontrada.");
+    res.status(404).send("❌ Page not found.");
 });
 
-// Iniciar el servidor en el puerto 3000
+// Start the server on port 3000
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`✅ Servidor corriendo en http://127.0.0.1:${PORT}/`);
+    console.log(`✅ Server running at http://127.0.0.1:${PORT}/`);
 });
