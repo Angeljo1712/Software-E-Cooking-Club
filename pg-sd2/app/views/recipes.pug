@@ -1,0 +1,28 @@
+extends layouts/layout
+
+block content
+  h1 🍽️ Recipe List
+  table(border="1")
+    thead
+      tr
+        th ID
+        th Title
+        th Description
+        th Ingredients
+        th Steps
+        th Category
+        th Image
+    tbody
+      each recipe in recipes
+        tr
+          td= recipe.recipe_id
+          td: a(href=`/recipes/${recipe.recipe_id}`)= recipe.title
+          td= recipe.description
+          td= recipe.ingredients
+          td= recipe.steps
+          td= recipe.category_name
+          td
+            if recipe.image_url
+              img(src=recipe.image_url, width="100")
+            else
+              | No Image Available
