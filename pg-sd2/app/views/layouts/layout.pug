@@ -4,8 +4,23 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title= title
+
+    // 🔹 Agregamos más compatibilidad con estilos y fuentes externas
     link(rel="stylesheet", href="/styles.css")
+
+    // 🔹 Espacio para agregar CSS específico por página (opcional)
+    block styles
+
   body
-    include ../partials/header
+    // 🔹 Incluir la cabecera (header)
+    include ../partials/header.pug
+    
+
+    // 🔹 Aquí se insertará el contenido de cada página
     block content
-    include ../partials/footer
+
+    // 🔹 Incluir el pie de página (footer)
+    include ../partials/footer.pug
+
+    // 🔹 Espacio para agregar JavaScript específico por página (opcional)
+    block scripts
