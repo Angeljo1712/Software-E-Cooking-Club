@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../services/db");
 
-// Ruta para obtener la lista de recetas
+// Route to get the list of recipes
 router.get("/", async (req, res) => {
     try {
         const sql = `
@@ -14,12 +14,12 @@ router.get("/", async (req, res) => {
         const recipes = await db.query(sql);
         res.render("recipes", { title: "Recipe List", recipes });
     } catch (error) {
-        console.error("❌ Error al recuperar recetas:", error);
-        res.status(500).send("Error al cargar la lista de recetas.");
+        console.error("❌ Error retrieving recipes:", error);
+        res.status(500).send("Error loading the recipe list.");
     }
 });
 
-// Ruta para ver los detalles de una receta específica
+// Route to view the details of a specific recipe
 router.get("/:id", async (req, res) => {
     try {
         const sql = `
@@ -37,8 +37,8 @@ router.get("/:id", async (req, res) => {
 
         res.render("recipe_details", { title: recipe[0].title, recipe: recipe[0] });
     } catch (error) {
-        console.error("❌ Error al recuperar detalles de la receta:", error);
-        res.status(500).send("Error al cargar los detalles de la receta.");
+        console.error("❌ Error retrieving recipe details:", error);
+        res.status(500).send("Error loading the recipe details.");
     }
 });
 
