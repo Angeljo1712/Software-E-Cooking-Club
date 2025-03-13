@@ -3,35 +3,6 @@ const router = express.Router();
 const db = require("../services/db");
 
 
-
-
-const multer = require("multer");
-const path = require("path");
-
-// 🔹 Configurar Multer para guardar imágenes en /static/uploads/
-const storage = multer.diskStorage({
-    destination: "./static/uploads/", // 📌 Asegura que las imágenes se guardan en /static/uploads/
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // 📌 Asigna un nombre único a la imagen
-    }
-});
-
-const upload = multer({ storage: storage });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 🔹 Search route - MUST BE BEFORE "/:id"
 router.get("/search", async (req, res) => {
     try {
