@@ -1,31 +1,36 @@
-doctype html
-html
-  head
-    title Cooking Club - Recipe Details
-    link(rel="stylesheet", href="/styles.css") 
-  body
-    h1 🍽️ #{recipe.title}
+
+extends layouts/layout 
+
+
+block content
+  
+  h1 🍽️ #{recipe.title}
     
-    if recipe.image_url
-      img(src=recipe.image_url, width="300")
-    else
-      p No Image Available
+  
+  if recipe.image_url
+    img(src=recipe.image_url, width="300")
+  else
+    p No Image Available
 
-    h2 Description
-    p #{recipe.description}
+  
+  h2 Description
+  p #{recipe.description}
 
-    h2 Ingredients
-    ul
-      each ingredient in recipe.ingredients.split(',')
-        li #{ingredient.trim()}
+ 
+  h2 Ingredients
+  ul
+    each ingredient in recipe.ingredients.split(',')
+      li #{ingredient.trim()}
 
-    h2 Steps
-    ol
-      each step in recipe.steps.split('.')
-        if step.trim() !== ''
-          li #{step.trim()}
+ 
+  h2 Steps
+  ol
+    each step in recipe.steps.split('.')
+      if step.trim() !== ''
+        li #{step.trim()}
 
-    h2 Category
-    p #{recipe.category_name}
+  
+  h2 Category
+  p #{recipe.category_name}
 
-    a(href="/recipes") ⬅ Back to Recipes
+  a(href="/recipes") ⬅ Back to Recipes

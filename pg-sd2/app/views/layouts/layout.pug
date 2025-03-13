@@ -5,22 +5,21 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title= title
 
-    // 🔹 Agregamos más compatibilidad con estilos y fuentes externas
+    // 🔹 Adding external styles and fonts for better compatibility
     link(rel="stylesheet", href="/styles.css")
 
-    // 🔹 Espacio para agregar CSS específico por página (opcional)
+    // 🔹 Space for page-specific CSS (optional)
     block styles
 
   body
-    // 🔹 Incluir la cabecera (header)
+    // 🔹 Include the header
     include ../partials/header.pug
-    
 
-    // 🔹 Aquí se insertará el contenido de cada página
+    // 🔹 This is where the content of each page will be inserted
     block content
 
-    // 🔹 Incluir el pie de página (footer)
+    // 🔹 Include the footer
     include ../partials/footer.pug
 
-    // 🔹 Espacio para agregar JavaScript específico por página (opcional)
+    // 🔹 Space for page-specific JavaScript (optional)
     block scripts

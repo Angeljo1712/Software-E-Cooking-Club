@@ -2,7 +2,71 @@ const express = require("express");
 const router = express.Router();
 const db = require("../services/db");
 
-// Ruta para obtener la lista de recetas
+
+
+
+const multer = require("multer");
+const path = require("path");
+
+// 🔹 Configurar Multer para guardar imágenes en /static/uploads/
+const storage = multer.diskStorage({
+    destination: "./static/uploads/", // 📌 Asegura que las imágenes se guardan en /static/uploads/
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // 📌 Asigna un nombre único a la imagen
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 🔹 Search route - MUST BE BEFORE "/:id"
+router.get("/search", async (req, res) => {
+    try {
+        const query = req.query.query; // Get the search term
+
+        if (!query) {
+            return res.redirect("/recipes"); // Redirect to recipes if search is empty
+        }
+
+        const sql = `
+            SELECT recipes.recipe_id FROM recipes
+            WHERE recipes.title LIKE ? 
+               OR recipes.description LIKE ? 
+               OR recipes.ingredients LIKE ?
+            LIMIT 1
+        `;
+
+        // Search for one matching recipe
+        const [recipe] = await db.query(sql, [`%${query}%`, `%${query}%`, `%${query}%`]);
+
+        if (!recipe) {
+            return res.status(404).send("No matching recipe found."); // Handle no matches
+        }
+
+        // Redirect to the details page of the first matched recipe
+        res.redirect(`/recipes/${recipe.recipe_id}`);
+
+    } catch (error) {
+        console.error("❌ Error searching for recipe:", error);
+        res.status(500).send("Error processing search request.");
+    }
+});
+
+
+// 🔹 Route to retrieve all recipes
 router.get("/", async (req, res) => {
     try {
         const sql = `
@@ -13,13 +77,14 @@ router.get("/", async (req, res) => {
         `;
         const recipes = await db.query(sql);
         res.render("recipes", { title: "Recipe List", recipes });
+
     } catch (error) {
-        console.error("❌ Error al recuperar recetas:", error);
-        res.status(500).send("Error al cargar la lista de recetas.");
+        console.error("❌ Error retrieving recipes:", error);
+        res.status(500).send("Error loading the recipe list.");
     }
 });
 
-// Ruta para ver los detalles de una receta específica
+// 🔹 Route to view recipe details
 router.get("/:id", async (req, res) => {
     try {
         const sql = `
@@ -36,9 +101,10 @@ router.get("/:id", async (req, res) => {
         }
 
         res.render("recipe_details", { title: recipe[0].title, recipe: recipe[0] });
+
     } catch (error) {
-        console.error("❌ Error al recuperar detalles de la receta:", error);
-        res.status(500).send("Error al cargar los detalles de la receta.");
+        console.error("❌ Error retrieving recipe details:", error);
+        res.status(500).send("Error loading the recipe details.");
     }
 });
 

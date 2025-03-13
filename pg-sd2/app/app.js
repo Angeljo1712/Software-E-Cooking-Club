@@ -2,7 +2,9 @@
 const express = require("express");
 const path = require("path");
 const db = require("./services/db"); // Import MySQL connection
-const homeRoutes = require("./routes/home");
+
+// Import routes from controllers
+const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const recipesRoutes = require("./routes/recipes");
 
@@ -14,7 +16,7 @@ app.set("views", path.join(__dirname, "views"));
 app.locals.basedir = app.get("views"); // 🔥 Set the base directory for Pug
 
 // Middleware for serving static files (CSS, images, JS)
-app.use(express.static(path.join(__dirname, "static"))); // Ensure correct static folder path
+app.use(express.static("static")); // Ensure correct static folder path
 
 // Middleware to handle data submitted via forms
 app.use(express.json());
@@ -22,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Main route
 app.get("/", (req, res) => {
-    res.render("home", { title: "Home - Cooking Club" });
+    res.render("index", { title: "Home - Cooking Club" });
 });
 
 // Route to test database connection
@@ -38,9 +40,12 @@ app.get("/db_test", async (req, res) => {
 });
 
 // Import routes from modules
-app.use("/", homeRoutes);
+app.use("/", indexRoutes);
 app.use("/users", usersRoutes);
 app.use("/recipes", recipesRoutes);
+app.use("/uploads", express.static("static/uploads"));
+
+
 
 // Middleware to handle not found routes
 app.use((req, res) => {
