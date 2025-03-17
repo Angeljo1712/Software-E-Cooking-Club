@@ -112,15 +112,6 @@ app.get('/programmes-table', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
 // Create a route for testing the db
 app.get("/sd2-db", function(req, res) {
     // Assumes a table called test_table exists in your database
