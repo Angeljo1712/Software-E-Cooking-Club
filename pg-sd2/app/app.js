@@ -43,7 +43,7 @@ app.get("/db_test", async (req, res) => {
 app.use("/", indexRoutes);
 app.use("/users", usersRoutes);
 app.use("/recipes", recipesRoutes);
-app.use("/uploads", express.static("static/uploads"));
+app.use("/static", express.static("static"));
 
 
 
