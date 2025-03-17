@@ -1,11 +1,14 @@
 extends layouts/layout
 
 block content
+  // 🔹 Page title
   h1 👨‍🍳 User List
 
+  // 🔹 Create a table to display users
   table(border="1")
     thead
       tr
+        // 🔹 Table headers for user details
         th ID
         th Username
         th First Name
@@ -14,12 +17,18 @@ block content
         th Role
 
     tbody
+      // 🔹 Loop through the `users` array and generate a row for each user
       each user in users
         tr
-          td= user.user_id
-          // 🔹 Make username a clickable link to user details page by username
+          //- Display the user ID
+          td= user.user_id  
+          //- Make the username clickable, linking to the user's details page
           td: a(href=`/users/${user.username}`)= user.username
-          td= user.first_name
-          td= user.last_name
-          td= user.email
-          td= user.role
+          //- Display the user's first name
+          td= user.first_name  
+          //- Display the user's last name
+          td= user.last_name   
+          //- Display the user's email
+          td= user.email       
+          //- Display the user's role
+          td= user.role        

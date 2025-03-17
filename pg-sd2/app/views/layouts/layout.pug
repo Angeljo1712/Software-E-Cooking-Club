@@ -1,25 +1,30 @@
 doctype html
 html(lang="en")
   head
+    // 🔹 Set character encoding to UTF-8 for universal text support
     meta(charset="UTF-8")
+
+    // 🔹 Ensure proper rendering on mobile devices with responsive design
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    // 🔹 Set the page title dynamically based on the `title` variable
     title= title
 
-    // 🔹 Adding external styles and fonts for better compatibility
+    // 🔹 Add external styles (CSS file) for styling the webpage
     link(rel="stylesheet", href="/styles.css")
 
-    // 🔹 Space for page-specific CSS (optional)
+    // 🔹 Block for additional CSS styles specific to individual pages (optional)
     block styles
 
   body
-    // 🔹 Include the header
+    // 🔹 Include the header (navigation bar or top section of the page)
     include ../partials/header.pug
 
-    // 🔹 This is where the content of each page will be inserted
+    // 🔹 Main content block where each page's specific content will be inserted
     block content
 
-    // 🔹 Include the footer
+    // 🔹 Include the footer (bottom section of the page)
     include ../partials/footer.pug
 
-    // 🔹 Space for page-specific JavaScript (optional)
+    // 🔹 Block for additional JavaScript files specific to individual pages (optional)
     block scripts
