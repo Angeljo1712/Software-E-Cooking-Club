@@ -7,92 +7,84 @@ var app = express();
 // Add static files location
 app.use(express.static("static"));
 
-//Create Port
-const PORT = 3000;
+// Use the Pug templating engine
+app.set('view engine', 'pug');
+app.set('views', './app/views');
 
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
-app.set('view engine', 'pug');
-app.set('views', './app/views');
-
-
-
 // Create a route for root - /
 app.get("/", function(req, res) {
-    var test_data = ['one', 'two', 'three', 'four'];
-    res.render("mypage", {'title': 'My index page', 'heading': 'My heading', 'data': test_data});
-});
-
-// Create a route for root - /
-app.get("/", function(req, res) {
-    var test_data = ['one', 'two', 'three', 'four'];
-    res.render("index", {'title': 'My index page', 'heading': 'My heading', 'data': test_data});
-});
-
-// Create a route for /roehampton
-app.get("/roehampton", function(req, res) {
-    console.log(req.url);
-    let path = req.url;
-    res.send(path.substring(0,3)); // Devuelve "/ro"
+    res.render("index");
 });
 
 
+// Task 1 JSON formatted listing of students
+app.get("/all-students", function(req, res) {
+    var sql = 'select * from Students';
+    // As we are not inside an async function we cannot use await
+    // So we use .then syntax to ensure that we wait until the 
+    // promise returned by the async function is resolved before we proceed
+    db.query(sql).then(results => {
+        console.log(results);
+        res.json(results);
+    });
 
-// Create a route for Estudents no table
-app.get('/students-table', async (req, res) => {
-    try {
-        const students = await db.query("SELECT * FROM Students");
-        res.render('students-table', { students }); // Renderiza correctamente la vista
-    } catch (error) {
-        console.error("Database Error:", error);
-        res.status(500).json({ error: "Error fetching students" });
-    }
 });
 
-
-//Show students in an HTML table
-/*/app.get('/students-table', async (req, res) => {
-    try {
-        const students = await db.query("SELECT * FROM Students");
-        console.log(students);
-        let html = `<h1>Student List</h1><table border='1'><tr><th>ID</th><th>Name</th></tr>`;
-        students.forEach(student => {
-            html += `<tr><td>${student.id}</td><td><a href='/student/${student.id}'>${student.name}</a></td></tr>`;
-        });
-        html += "</table>";
-        res.send(html);
-    } catch (error) {
-        console.error("Database Error:", error);
-        res.status(500).send("Error fetching students");
-    }
+// Task 2 display a formatted list of students
+app.get("/all-students-formatted", function(req, res) {
+    var sql = 'select * from Students';
+    db.query(sql).then(results => {
+    	    // Send the results rows to the all-students template
+    	    // The rows will be in a variable called data
+        res.render('all-students', {data: results});
+    });
 });
 
+// Single student page.  Show the students name, course and modules
+app.get("/student-single/:id", async function (req, res) {
+    var stId = req.params.id;
+    console.log(stId);
+    // Query to get the required results from the students table.  
+    // We need this to get the programme code for this student.
+    var stSql = "SELECT s.name as student, ps.name as programme, \
+    ps.id as pcode from Students s \
+    JOIN Student_Programme sp on sp.id = s.id \
+    JOIN Programmes ps on ps.id = sp.programme \
+    WHERE s.id = ?";
 
-app.get('/student/:id', async (req, res) => {
-    try {
-        const student = await db.query("SELECT * FROM Students WHERE id = ?", [req.params.id]);
-        if (student.length === 0) {
-            return res.status(404).send("Student not found");
-        }
+    var stResult = await db.query(stSql, [stId]);
+    console.log(stResult);
+    var pCode = stResult[0]['pcode'];
+    
+    // Get the modules for this student using the programme code from 
+    // the query above
+    var modSql = "SELECT * FROM Programme_Modules pm \
+    JOIN Modules m on m.code = pm.module \
+    WHERE programme = ?";
 
-        let html = `<h1>${student[0].name}</h1>`;
-        html += "<h2>Programme</h2>";
+    var modResult = await db.query(modSql, [pCode]);
+    console.log(modResult);
 
-        const programme = await db.query(`
-            SELECT Programmes.name 
-            FROM Student_Programme 
-            JOIN Programmes ON Student_Programme.programme = Programmes.id 
-            WHERE Student_Programme.id = ?`, [req.params.id]);
+    // Send directly to the browser for now as a simple concatenation of strings
+    res.send(JSON.stringify(stResult) + JSON.stringify(modResult));
+    });
 
-        if (programme.length > 0) {
-            html += `<p>${programme[0].name}</p>`;
-        }
 
-        res.send(html);
-    } catch (error) {
-        res.status(500).send("Error fetching student details");
-    }
+
+// JSON output of all programmes
+app.get("/all-programmes", function(req, res) {
+    var sql = 'select * from Programmes';
+    // As we are not inside an async function we cannot use await
+    // So we use .then syntax to ensure that we wait until the 
+    // promise returned by the async function is resolved before we proceed
+    db.query(sql).then(results => {
+        console.log(results);
+        res.json(results);
+    });
+
 });
 
 
@@ -112,27 +104,27 @@ app.get('/programmes-table', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
 // Create a route for testing the db
-app.get("/sd2-db", function(req, res) {
+app.get("/db_test", function(req, res) {
     // Assumes a table called test_table exists in your database
-    sql = 'select * from test_table';
+    var sql = 'select * from test_table';
+    // As we are not inside an async function we cannot use await
+    // So we use .then syntax to ensure that we wait until the 
+    // promise returned by the async function is resolved before we proceed
     db.query(sql).then(results => {
         console.log(results);
-        res.send(results)
+        res.json(results)
     });
 });
-
-
-/*/app.get("/db_test/:id", function(req, res) {
-    let id = req.params.id;
-    let sql = `SELECT name FROM users WHERE id = ?`; // Filtra por ID
-    db.query(sql, [id], (err, result) => {
-        if (err) throw err;
-        res.send(`<h1>User: ${result[0].name}</h1>`);
-    });
-});
-
-
 
 // Create a route for /goodbye
 // Responds to a 'GET' request
@@ -151,33 +143,7 @@ app.get("/hello/:name", function(req, res) {
     res.send("Hello " + req.params.name);
 });
 
-app.get("/user/:id", function(req, res) {
-    res.send("User ID: " + req.params.id);
-});
-
-/**app.get("/student/:name/:id", function(req, res) {
-    res.send("Student: " + req.params.name + ", ID: " + req.params.id);
-});**/
-
-
-app.get("/student/:name/:id", function(req, res) {
-    res.send(`
-        <table border="1">
-            <tr><th>Name</th><th>ID</th></tr>
-            <tr><td>${req.params.name}</td><td>${req.params.id}</td></tr>
-        </table>
-    `);
-});
-
-
-
-app.listen(PORT,  () => {
-    console.log(`Server running on http://127.0.0.1:${PORT}`);
-});
-
-
-
 // Start server on port 3000
-/**app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000`);
-});**/
+app.listen(3000,function(){
+    console.log(`Server running at http://127.0.0.1:3000/`);
+});
