@@ -10,7 +10,6 @@ const recipesRoutes = require("./routes/recipes");
 
 const app = express();
 
-<<<<<<< HEAD
 // Use the Pug templating engine
 app.set('view engine', 'pug');
 app.set('views', './app/views');
@@ -128,35 +127,6 @@ app.get("/db_test", function(req, res) {
         console.log(results);
         res.json(results)
     });
-=======
-// Configure Pug as the template engine
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "views"));
-app.locals.basedir = app.get("views"); // 🔥 Set the base directory for Pug
-
-// Middleware for serving static files (CSS, images, JS)
-app.use(express.static("static")); // Ensure correct static folder path
-
-// Middleware to handle data submitted via forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Main route
-app.get("/", (req, res) => {
-    res.render("index", { title: "Home - Cooking Club" });
-});
-
-// Route to test database connection
-app.get("/db_test", async (req, res) => {
-    try {
-        const categories = await db.query("SELECT * FROM categories");
-        console.log("📌 Categories data:", categories);
-        res.json(categories);
-    } catch (error) {
-        console.error("❌ Database connection error:", error);
-        res.status(500).send("Database connection error.");
-    }
->>>>>>> develop
 });
 
 // Import routes from modules
