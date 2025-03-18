@@ -1,0 +1,26 @@
+extends layouts/layout
+
+block content
+  h1 👤 User Profile
+
+  .profile-container
+    .profile-header
+      h2=user.username
+      p Email: #{user.email}
+      p Name: #{user.first_name} #{user.last_name}
+      p Role: #{user.role}
+
+    // 🔹 Uploaded Recipes Section
+    h3 Uploaded Recipes:
+    .recipes-grid
+      if uploadedRecipes.length
+        each recipe in uploadedRecipes
+          .recipe-card
+            img(src=recipe.image_url alt=recipe.title)
+            p 🍽️= recipe.title
+            a(href=`/recipes/${recipe.recipe_id}`) View Recipe
+      else
+        p No uploaded recipes.
+
+    // 🔹 Back to Users List
+    a(href="/users") ⬅ Back to Users List

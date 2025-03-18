@@ -1,12 +1,16 @@
-// Import express.js
+// Import dependencies
 const express = require("express");
+const path = require("path");
+const db = require("./services/db"); // Import MySQL connection
 
-// Create express app
-var app = express();
+// Import routes from controllers
+const indexRoutes = require("./routes/index");
+const usersRoutes = require("./routes/users");
+const recipesRoutes = require("./routes/recipes");
 
-// Add static files location
-app.use(express.static("static"));
+const app = express();
 
+<<<<<<< HEAD
 // Use the Pug templating engine
 app.set('view engine', 'pug');
 app.set('views', './app/views');
@@ -124,26 +128,52 @@ app.get("/db_test", function(req, res) {
         console.log(results);
         res.json(results)
     });
+=======
+// Configure Pug as the template engine
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.locals.basedir = app.get("views"); // 🔥 Set the base directory for Pug
+
+// Middleware for serving static files (CSS, images, JS)
+app.use(express.static("static")); // Ensure correct static folder path
+
+// Middleware to handle data submitted via forms
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Main route
+app.get("/", (req, res) => {
+    res.render("index", { title: "Home - Cooking Club" });
 });
 
-// Create a route for /goodbye
-// Responds to a 'GET' request
-app.get("/goodbye", function(req, res) {
-    res.send("Goodbye world!");
+// Route to test database connection
+app.get("/db_test", async (req, res) => {
+    try {
+        const categories = await db.query("SELECT * FROM categories");
+        console.log("📌 Categories data:", categories);
+        res.json(categories);
+    } catch (error) {
+        console.error("❌ Database connection error:", error);
+        res.status(500).send("Database connection error.");
+    }
+>>>>>>> develop
 });
 
-// Create a dynamic route for /hello/<name>, where name is any value provided by user
-// At the end of the URL
-// Responds to a 'GET' request
-app.get("/hello/:name", function(req, res) {
-    // req.params contains any parameters in the request
-    // We can examine it in the console for debugging purposes
-    console.log(req.params);
-    //  Retrieve the 'name' parameter and use it in a dynamically generated page
-    res.send("Hello " + req.params.name);
+// Import routes from modules
+app.use("/", indexRoutes);
+app.use("/users", usersRoutes);
+app.use("/recipes", recipesRoutes);
+app.use("/static", express.static("static"));
+
+
+
+// Middleware to handle not found routes
+app.use((req, res) => {
+    res.status(404).send("❌ Page not found.");
 });
 
-// Start server on port 3000
-app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000/`);
+// Start the server on port 3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Server running at http://127.0.0.1:${PORT}/`);
 });

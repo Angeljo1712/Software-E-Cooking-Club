@@ -1,0 +1,39 @@
+extends layouts/layout  
+
+block content
+  // 🔹 Page title
+  h1 🍽️ Recipe List
+
+  // 🔹 Create a table to display recipes
+  table(border="1")
+    thead
+      tr
+        // 🔹 Table headers
+        th ID
+        th Title
+        th Description
+        th Ingredients
+        th Steps
+        th Category
+        th Image
+
+    tbody
+      // 🔹 Loop through the `recipes` array to generate rows dynamically
+      each recipe in recipes
+        tr
+          td= recipe.recipe_id 
+          //- 🔹 Link the recipe title to its detailed view
+          td: a(href=`/recipes/${recipe.recipe_id}`)= recipe.title
+          td= recipe.description
+          td= recipe.ingredients
+          td= recipe.steps
+          td= recipe.category_name
+          td
+            //- 🔹 Display the recipe image, fallback to `default.jpg` if not found
+            img(
+              src=`/static/images/${recipe.image_url || 'default.jpg'}`  
+              alt=recipe.title  
+              width="50"
+              height="50"
+              onerror="this.onerror=null; this.src='/static/images/default.jpg';"
+            )
