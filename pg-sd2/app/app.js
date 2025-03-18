@@ -8,7 +8,8 @@ const app = express();
 
 // Configure Pug as the template engine
 app.set("view engine", "pug");
-app.set("views", "./app/views");
+app.set("views", Path2D.join(__dirname, "views"));
+app.locals.basedir= app.get("views");
 
 // Middleware for serving static files (CSS, images, JS)
 app.use(express.static("static"));
