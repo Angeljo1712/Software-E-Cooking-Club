@@ -1,0 +1,40 @@
+extends layouts/layout
+
+block content
+  .register-wrapper
+    .register-image
+      img(src="/images/login-dish.jpg", alt="Register image")
+
+    .register-form
+      h1 Create your account
+
+      // Botones sociales
+      button.register-btn(onclick="showEmailForm()")
+        i(class="fas fa-envelope")
+        |  Sign up with Email
+
+      button.register-btn
+        i(class="fab fa-facebook-f")
+        |  Sign up with Facebook
+
+      button.register-btn
+        i(class="fab fa-google")
+        |  Sign up with Google
+
+      // Formulario oculto inicialmente
+      form#email-form(action="/register", method="POST", style="display: none; margin-top: 1rem;")
+        input(type="email", name="email", placeholder="Enter your email", required)
+        button(type="submit") Join now
+      if error
+        p.error-message #{error}  
+
+
+      p.register-footer
+        | Already have an account?
+        a(href="/login") Log in
+
+block scripts
+  script.
+    function showEmailForm() {
+      document.getElementById("email-form").style.display = "block";
+    }

@@ -1,0 +1,25 @@
+extends layouts/layout
+
+block content
+  .login-wrapper
+    .login-image
+      img(src="/images/login-dish.jpg", alt="Login image")
+
+    .login-form
+      h1 Log in
+
+      button.login-btn
+        i(class="fas fa-envelope")
+        |  Log in with Email
+
+      button.login-btn
+        i(class="fab fa-facebook-f")
+        |  Log in with Facebook
+
+      button.login-btn
+        i(class="fab fa-google")
+        |  Log in with Google
+
+      p.login-footer
+        | Don't have an account?
+        a(href="/register") Join now
