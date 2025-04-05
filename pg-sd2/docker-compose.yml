@@ -1,29 +1,32 @@
-version: '3.3'
-services:
-  web:
-    build:
-      context: ./
-    volumes:
-      - .:/src
-    command: supervisor -e 'js,pug,html' app/app.js
+version: '3.3'  # Specifies the version of Docker Compose being used
 
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-  db:
-    image: mysql
-    restart: always
-    env_file:
-      - ./.env
-    ports:
-      - "3308:3306"
+services:  # Defines the services that will run in containers
+
+  web:  # Web application service (Node.js)
+    build:
+      context: ./  # Builds the image using the Dockerfile located in the root directory
     volumes:
-      - ./db:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    restart: always
-    env_file:
-      - ./.env
+      - .:/src  # Synchronizes the current directory with `/src` inside the container for live development
+    command: supervisor -e 'js,pug,html' app/app.js  # Runs `supervisor` to automatically restart the server when `.js`, `.pug`, or `.html` files change
     ports:
-      - "8081:80"
+      - "3000:3000"  # Exposes port 3000 from the container to port 3000 on the host
+    depends_on:
+      - db  # Ensures the `db` (MySQL) service starts before the `web` service
+
+  db:  # MySQL database service
+    image: mysql  # Uses the official MySQL image from Docker Hub
+    restart: always  # Automatically restarts the container if it stops
+    env_file:
+      - ./.env  # Loads environment variables from the `.env` file
+    ports:
+      - "3308:3306"  # Maps port 3306 inside the MySQL container to port 3308 on the host
+    volumes:
+      - ./db:/var/lib/mysql  # Persists MySQL data in the `db` folder on the host to prevent data loss
+
+  phpmyadmin:  # phpMyAdmin service to manage the MySQL database
+    image: phpmyadmin/phpmyadmin:latest  # Uses the latest version of phpMyAdmin from Docker Hub
+    restart: always  # Automatically restarts the container if it stops
+    env_file:
+      - ./.env  # Loads environment variables from the `.env` file
+    ports:
+      - "8081:80"  # Exposes phpMyAdmin on port 8081 on the host, mapping it to port 80 inside the container

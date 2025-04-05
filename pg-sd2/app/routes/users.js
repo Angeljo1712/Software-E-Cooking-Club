@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const usersController = require("../controllers/usersController");
+const usersController = require("../controllers/usersController");  // Import the users controller
 
-// 🔹 Ruta para obtener un usuario por su nombre de usuario
+// 🔹 Route to retrieve a user by their username
 router.get("/:username", usersController.searchUsername);
 
-// 🔹 Ruta para obtener la lista de todos los usuarios
+// 🔹 Route to retrieve the list of all users
 router.get("/", usersController.getAllUsers);
 
-module.exports = router;
+module.exports = router;  // Export the router to be used in the main application

@@ -3,23 +3,25 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    // 🔹 Título dinámico desde cada vista
     title= title
 
-    // 🔹 Adding external styles and fonts for better compatibility
-    link(rel="stylesheet", href="/styles.css")
+    // 🔹 Estilos globales (si tienes más CSS en el futuro)
+    link(rel="stylesheet", href="/css/login.css")
 
-    // 🔹 Space for page-specific CSS (optional)
+    // 🔹 Iconos de Font Awesome (para login buttons)
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+
+    // 🔹 CSS personalizado por vista (opcional)
     block styles
 
   body
-    // 🔹 Include the header
+    // 🔹 Header solo si la página lo necesita
     include ../partials/header.pug
 
-    // 🔹 This is where the content of each page will be inserted
     block content
 
-    // 🔹 Include the footer
     include ../partials/footer.pug
 
-    // 🔹 Space for page-specific JavaScript (optional)
     block scripts
