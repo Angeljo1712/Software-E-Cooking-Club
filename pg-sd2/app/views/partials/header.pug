@@ -1,18 +1,23 @@
-header
-  nav
-    a(href="/") 🏠 Cooking Club
+header.header-container
+  .top-bar
+    a.logo(href="/") Cooking<span style="color:#f56300">Club</span>
 
-    form(action="/recipes/search", method="GET")
-      input(type="text", name="query", placeholder="Search recipes...")
-      button(type="submit") 🔍 Search
+    form.search-bar(action="/recipes/search", method="GET")
+      input(type="text", name="query", placeholder="Find a recipe or ingredient")
+      button(type="submit") 🔍
 
-    // 🔹 Navegación principal
-    a(href="/users") 👥 Users
-    a(href="/recipes") 🍽️ Recipes
+    .user-controls
+      if user
+        span 👤 #{user.username}
+        a(href="/logout") 🚪 Logout
+      else
+        a(href="/login") 🔐 Log in
 
-    // 🔐 Mostrar login o logout según sesión
-    if user
-      span 👋 Welcome #{user.username}
-      a(href="/logout") 🚪 Logout
-    else
-      a(href="/login") 🔐 Log in
+  .nav-bar
+    ul
+      li: a(href="#") Dinners
+      li: a(href="#") Meals
+      li: a(href="#") Ingredients
+      li: a(href="#") Cuisines
+      li: a(href="#") Features
+      li: a(href="#") About Us

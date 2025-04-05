@@ -1,34 +1,32 @@
-extends layouts/layout
+extends layouts/layoutMinimal
+
+block styles
+  link(rel="stylesheet", href="/css/login.css")
 
 block content
-  .login-wrapper
-    .login-image
-      img(src="/images/login-dish.jpg", alt="Login image")
+  .login-container
+    .login-left
+      a.logo(href="/")
+        span Cooking
+        span.orange Club
 
-    .login-form
-      h1 Log in
+      h2 Log in
 
-      button.login-btn
-        i(class="fas fa-envelope")
-        |  Log in with Email
+      button.btn-social.btn-email
+        i.fas.fa-envelope
+        | Log in with Email
 
-      button.login-btn
-        i(class="fab fa-facebook-f")
-        |  Log in with Facebook
+      button.btn-social.btn-facebook
+        i.fab.fa-facebook
+        | Log in with Facebook
 
-      button.login-btn
-        i(class="fab fa-google")
-        |  Log in with Google
+      button.btn-social.btn-google
+        i.fab.fa-google
+        | Log in with Google
 
-      p.login-footer
-        | Don't have an account?
+      p
+        | Don’t have an account?
         a(href="/register") Join now
 
-      form(action="/login", method="POST")
-        label(for="identifier") Email or Username
-        input(type="text", name="identifier", placeholder="you@example.com", required)
-
-        label(for="password") Password
-        input(type="password", name="password", required)
-
-        button(type="submit") Log in
+    .login-right
+      img(src="/images/login-right.jpg", alt="Delicious food")

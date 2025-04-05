@@ -4,6 +4,8 @@ const path = require("path");
 const db = require("./services/db"); // Import MySQL connection
 const session = require("express-session");
 
+
+
 // Import routes from controllers
 const app = express();
 const indexRoutes = require("./routes/index");
@@ -21,23 +23,21 @@ const logoutRoutes = require("./routes/logout");
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.locals.basedir = app.get("views"); // 🔥 Set the base directory for Pug
-
-// Middleware for serving static files (CSS, images, JS)
-app.use(express.static(path.join(__dirname, "static")));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "..", "static")));
 
 
 
-// Middleware to handle data submitted via forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: "s3cret_c0de_OTP", // Puedes cambiarlo por cualquier valor seguro
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 600000 } // 10 minutos de sesión
-  }));
+  secret: "s3cret_c0de_OTP", // Puedes cambiarlo por cualquier valor seguro
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 600000 } // 10 minutos de sesión
+}));
+
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 
