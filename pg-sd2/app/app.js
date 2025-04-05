@@ -5,11 +5,6 @@ const db = require("./services/db"); // Import MySQL connection
 const session = require("express-session");
 
 // Import routes from controllers
-<<<<<<< Updated upstream
-const indexRoutes = require("./routes/index");
-const usersRoutes = require("./routes/users");
-const recipesRoutes = require("./routes/recipes");
-=======
 const app = express();
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
@@ -20,9 +15,6 @@ const verifyRoutes = require("./routes/verify");
 const completeRoutes = require("./routes/completeRegistration");
 const logoutRoutes = require("./routes/logout");
 
->>>>>>> Stashed changes
-
-const app = express();
 
 // Configure Pug as the template engine
 app.set("view engine", "pug");
@@ -47,10 +39,6 @@ app.use(session({
 
 // Main route
 app.get("/", (req, res) => {
-<<<<<<< Updated upstream
-    res.render("index", { title: "Home - Cooking Club" });
-});
-=======
     const user = req.session.user; // Esto puede ser undefined si no está logueado
     res.render("index", {
       title: "Home - Cooking Club",
@@ -59,7 +47,7 @@ app.get("/", (req, res) => {
   });
   
 
->>>>>>> Stashed changes
+
 
 // Route to test database connection
 app.get("/db_test", async (req, res) => {
@@ -77,16 +65,12 @@ app.get("/db_test", async (req, res) => {
 app.use("/", indexRoutes);
 app.use("/users", usersRoutes);
 app.use("/recipes", recipesRoutes);
-<<<<<<< Updated upstream
-app.use("/uploads", express.static("static/uploads"));
-=======
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 app.use("/verify-code", verifyRoutes);
 app.use("/complete-registration", completeRoutes);
 app.use("/logout", logoutRoutes);
 
->>>>>>> Stashed changes
 
 
 
