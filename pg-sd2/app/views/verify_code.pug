@@ -1,0 +1,14 @@
+extends layouts/layout
+
+block content
+  h1 Verify your Email
+
+  if error
+    p(style="color: red")= error
+
+  form(action="/verify-code", method="POST")
+    label(for="code") Enter your OTP:
+    input(type="text", name="code", required)
+    button(type="submit") Verify
+
+  p OTP sent to #{email}

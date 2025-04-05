@@ -7,6 +7,19 @@ header
       input(type="text", name="query", placeholder="Search recipes...")
       button(type="submit") 🔍 Search
 
+<<<<<<< Updated upstream
   // Links to Users and Recipes pages 
   a(href="/users") 👥 Users
   a(href="/recipes") 🍽️ Recipes
+=======
+    // 🔹 Navegación principal
+    a(href="/users") 👥 Users
+    a(href="/recipes") 🍽️ Recipes
+
+    // 🔐 Mostrar login o logout según sesión
+    if user
+      span 👋 Welcome #{user.username}
+      a(href="/logout") 🚪 Logout
+    else
+      a(href="/login") 🔐 Log in
+>>>>>>> Stashed changes

@@ -2,11 +2,25 @@
 const express = require("express");
 const path = require("path");
 const db = require("./services/db"); // Import MySQL connection
+const session = require("express-session");
 
 // Import routes from controllers
+<<<<<<< Updated upstream
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const recipesRoutes = require("./routes/recipes");
+=======
+const app = express();
+const indexRoutes = require("./routes/index");
+const usersRoutes = require("./routes/users");
+const recipesRoutes = require("./routes/recipes");
+const loginRoutes = require("./routes/login");
+const registerRoutes = require("./routes/register");
+const verifyRoutes = require("./routes/verify");
+const completeRoutes = require("./routes/completeRegistration");
+const logoutRoutes = require("./routes/logout");
+
+>>>>>>> Stashed changes
 
 const app = express();
 
@@ -22,10 +36,30 @@ app.use(express.static("static")); // Ensure correct static folder path
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+    secret: "s3cret_c0de_OTP", // Puedes cambiarlo por cualquier valor seguro
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 600000 } // 10 minutos de sesión
+  }));
+
+
+
 // Main route
 app.get("/", (req, res) => {
+<<<<<<< Updated upstream
     res.render("index", { title: "Home - Cooking Club" });
 });
+=======
+    const user = req.session.user; // Esto puede ser undefined si no está logueado
+    res.render("index", {
+      title: "Home - Cooking Club",
+      user
+    });
+  });
+  
+
+>>>>>>> Stashed changes
 
 // Route to test database connection
 app.get("/db_test", async (req, res) => {
@@ -43,7 +77,16 @@ app.get("/db_test", async (req, res) => {
 app.use("/", indexRoutes);
 app.use("/users", usersRoutes);
 app.use("/recipes", recipesRoutes);
+<<<<<<< Updated upstream
 app.use("/uploads", express.static("static/uploads"));
+=======
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+app.use("/verify-code", verifyRoutes);
+app.use("/complete-registration", completeRoutes);
+app.use("/logout", logoutRoutes);
+
+>>>>>>> Stashed changes
 
 
 

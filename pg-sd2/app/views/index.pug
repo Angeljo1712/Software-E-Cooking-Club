@@ -2,6 +2,14 @@ extends layouts/layout
 
 block content
   h1 Welcome to Cooking Club
+  p Join our community of food lovers and share your favorite recipes!
+  if user
+    p Welcome back, #{user.username}!
+    a(href='/logout') Logout
+  else
+    p Please log in to access your personalized dashboard.
+    a(href='/login') Login  
+
 
   h2 Featured Recipe: #{featuredRecipe ? featuredRecipe.title : "No Featured Recipe"}
   if featuredRecipe
