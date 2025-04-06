@@ -1,11 +1,35 @@
-footer
-  // 🔹 Social media links
-  p Follow us: 
-    a(href="https://facebook.com") Facebook |
-    a(href="https://instagram.com") Instagram |
-    a(href="https://twitter.com") Twitter
+footer.footer
+  .footer-container
+    .footer-left
+      h2.logo-text !{`<span style="color:#f56300">Cooking</span><span style="color:#333">Club</span>`}
+      button.newsletter-btn NEWSLETTERS
+      p Follow Us
+      .social-icons
+        a(href="https://facebook.com", target="_blank")
+          i.fab.fa-facebook-f
+        a(href="https://instagram.com", target="_blank")
+          i.fab.fa-instagram
+        a(href="https://pinterest.com", target="_blank")
+          i.fab.fa-pinterest-p
+        a(href="https://tiktok.com", target="_blank")
+          i.fab.fa-tiktok
+        a(href="https://youtube.com", target="_blank")
+          i.fab.fa-youtube
+        a(href="https://flipboard.com", target="_blank")
+          i.fab.fa-flipboard
 
-  // 🔹 Additional links for contact and privacy policy
-  p
-    a(href="/contact") Contact |
-    a(href="/privacy") Privacy Policy
+    .footer-middle
+      ul
+        li: a(href="#") Dinners
+        li: a(href="#") Meals
+        li: a(href="#") Ingredients
+        li: a(href="#") Occasions
+        li: a(href="#") Cuisines
+        li: a(href="#") Kitchen Tips
+        li: a(href="#") News
+        li: a(href="#") Features
+
+    .footer-right
+      ul
+        li: a(href="/about") About Us
+        li: a(href="/contact") Contact

@@ -409,3 +409,121 @@
 }
 
 
+/* Footer styles */
+.footer {
+  background-color: #f7f7f7;
+  padding: 40px 60px;
+  border-top: 1px solid #ddd;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer-left,
+.footer-middle,
+.footer-right {
+  flex: 1;
+  min-width: 200px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.newsletter-btn {
+  border: 2px solid #f56300;
+  background: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.social-icons a {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  color: #f56300;
+}
+
+.footer-middle ul,
+.footer-right ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-middle li,
+.footer-right li {
+  margin-bottom: 10px;
+}
+
+.footer-middle a,
+.footer-right a {
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+}
+
+.footer-middle a:hover,
+.footer-right a:hover {
+  color: #f56300;
+}
+
+
+/* Hero banner styles */
+
+.hero-banner {
+  background-image: url('/images/recipes-banner.jpg'); /* cambia a tu ruta real */
+  background-size: cover;
+  background-position: center;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  padding-left: 60px;
+  color: white;
+}
+
+.hero-text {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  color: white;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.hero-text h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+}
+
+
+.hero-text p {
+  font-size: 24px;
+  line-height: 1.6;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+}
+
+
+
+

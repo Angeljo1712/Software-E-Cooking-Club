@@ -1,16 +1,17 @@
-extends layouts/layout
+extends layouts/layout  
+
+block styles
+  link(rel="stylesheet", href="/css/hero.css")
 
 block content
-  h1 Welcome to Cooking Club
-  p Join our community of food lovers and share your favorite recipes!
-  if user
-    p Welcome back, #{user.username}!
-    a(href='/logout') Logout
-  else
-    p Please log in to access your personalized dashboard.
-    a(href='/login') Login  
+  .hero-banner
+    .hero-text
+      h1 Welcome to Cooking Club
+      h2 Recipes for all Occasions
+      p
+      p Discover, Share, and Enjoy Recipes from Around the World
 
-
+  
   h2 Featured Recipe: #{featuredRecipe ? featuredRecipe.title : "No Featured Recipe"}
   if featuredRecipe
     p= featuredRecipe.description
