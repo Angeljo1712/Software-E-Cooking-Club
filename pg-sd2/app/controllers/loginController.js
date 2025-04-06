@@ -12,12 +12,19 @@ async function handleLogin(req, res) {
     const user = await User.findByIdentifier(identifier);
 
     if (!user) {
-      return res.render("login", { error: "User not found", title: "Login" });
+      return res.render("login",{
+        title: "Login",
+        error: "User not found\nTry again",
+        showError: true,
+      });
     }
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return res.render("login", { error: "Incorrect password", title: "Login" });
+      return res.render("login", {
+        title: "Login",
+        error: "Incorrect password\nTry again",
+        showError: true,});
     }
 
     req.session.user = {

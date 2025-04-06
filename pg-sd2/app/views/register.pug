@@ -1,33 +1,35 @@
-extends layouts/layout
+extends layouts/layoutMinimal
+
+block styles
+  link(rel="stylesheet", href="/css/register.css")
 
 block content
-  .register-wrapper
-    .register-image
-      img(src="/images/login-dish.jpg", alt="Register image")
-
-    .register-form
+  .register-container
+    .register-left
+      img(src="/images/register-left.jpg", alt="Delicious food")
+    
+    .register-right
+      a.logo(href="/") !{`Cooking <span style="color:#f56300">Club</span>`}
       h1 Create your account
 
-      // Botones sociales
-      button.register-btn(onclick="showEmailForm()")
-        i(class="fas fa-envelope")
+      button.register-btn.btn-email(type="button", onclick="showEmailForm()")
+        i.fas.fa-envelope
         |  Sign up with Email
 
-      button.register-btn
-        i(class="fab fa-facebook-f")
+      button.register-btn.btn-facebook
+        i.fab.fa-facebook-f
         |  Sign up with Facebook
 
-      button.register-btn
-        i(class="fab fa-google")
+      button.register-btn.btn-google
+        i.fab.fa-google
         |  Sign up with Google
 
-      // Formulario oculto inicialmente
       form#email-form(action="/register", method="POST", style="display: none; margin-top: 1rem;")
         input(type="email", name="email", placeholder="Enter your email", required)
         button(type="submit") Join now
-      if error
-        p.error-message #{error}  
 
+      if error
+        p.error-message #{error}
 
       p.register-footer
         | Already have an account?

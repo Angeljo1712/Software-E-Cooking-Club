@@ -76,6 +76,11 @@
   font-weight: bold;
 }
 
+
+
+
+
+/* login styles*/
 .login-container {
   display: flex;
   height: 100vh;
@@ -117,13 +122,290 @@
 .btn-google { border-color: #db4437; color: #db4437; }
 
 .login-right {
-  flex: 1;
+  flex: 2;
 }
 
 .login-right img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+
+/* Hover effects for social buttons */
+.btn-social:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Optional: background color changes for feedback */
+.btn-email:hover {
+  background-color: #333;
+  color: white;
+}
+
+.btn-facebook:hover {
+  background-color: #3b5998;
+  color: white;
+}
+
+.btn-google:hover {
+  background-color: #db4437;
+  color: white;
+}
+
+#email-login-form input {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#email-login-form button {
+  padding: 10px;
+  background-color: #f56300;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-error {
+  color: #db4437;
+  background-color: #ffe6e6;
+  border: 1px solid #db4437;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  max-width: 300px;
+}
+
+
+
+/* Register page styles */
+.register-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.register-left {
+  flex: 2;
+}
+
+.register-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Optional: background color changes for feedback */
+.btn-email:hover {
+  background-color: #333;
+  color: white;
+}
+
+.btn-facebook:hover {
+  background-color: #3b5998;
+  color: white;
+}
+
+.btn-google:hover {
+  background-color: #db4437;
+  color: white;
+}
+
+.register-right {
+  flex: 1;
+  background-color: white;
+  padding: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.register-right h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.register-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 300px;
+  background-color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#email-form input {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#email-form button {
+  padding: 10px;
+  background-color: #f56300;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #db4437;
+  background-color: #ffe6e6;
+  border: 1px solid #db4437;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  max-width: 300px;
+}
+
+/* Verify page styles */
+.verify-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f8f8;
+}
+
+.verify-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.verify-box h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.verify-box label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.verify-box input[type="text"] {
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.verify-box button {
+  padding: 10px 20px;
+  background-color: #f56300;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.verify-box p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Main container */
+.complete-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Registration box */
+.complete-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Title */
+.complete-box h1 {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Form styling */
+.complete-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.complete-box input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.complete-box button {
+  padding: 12px;
+  background-color: #f56300;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.complete-box button:hover {
+  background-color: #d75200;
+}
+
+/* Optional responsive text */
+.complete-box p {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
 }
 
 

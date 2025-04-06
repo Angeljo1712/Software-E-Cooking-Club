@@ -8,6 +8,14 @@ async function verifyCode(req, res) {
   const { code } = req.body;
   const email = req.session.pendingEmail;
 
+  if (!email || !code) {
+    return res.render("verify_code", {
+      title: "Verify Code",
+      error: "Email or code is missing.",
+      email,
+    });
+  }
+
   try {
     const result = await db.query(
       "SELECT * FROM otp_codes WHERE email = ? AND code = ? AND expires_at > NOW()",
@@ -22,7 +30,6 @@ async function verifyCode(req, res) {
       });
     }
 
-    // OTP válido, ir al paso final: registrar datos personales
     req.session.verifiedEmail = email;
     res.redirect("/complete-registration");
   } catch (error) {
@@ -30,7 +37,6 @@ async function verifyCode(req, res) {
     res.status(500).send("Internal server error");
   }
 }
-
 module.exports = {
   showVerifyPage,
   verifyCode
