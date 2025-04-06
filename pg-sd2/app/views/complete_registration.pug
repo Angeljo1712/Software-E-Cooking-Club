@@ -4,8 +4,12 @@ block styles
   link(rel="stylesheet", href="/css/complete-registration.css")
 
 block content
+
+  a.logo(href="/") !{`Cooking <span style="color:#f56300">Club</span>`}
   .complete-container
     .complete-box
+     
+
       h1 Complete Your Registration
 
       form(action="/complete-registration", method="POST")
@@ -14,4 +18,5 @@ block content
         input(type="text", name="last_name", placeholder="Last Name", required)
         input(type="text", name="phone", placeholder="Phone", required)
         input(type="password", name="password", placeholder="Password", required)
+        input(type="text", name="country", placeholder="Country", required)
         button(type="submit") Register

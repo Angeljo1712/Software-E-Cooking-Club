@@ -24,7 +24,7 @@ async function createUser(email) {
 // 🔹 Buscar usuario por username (para el perfil)
 async function getUserByUsername(username) {
   const sql = `
-    SELECT user_id, username, first_name, last_name, email, role
+    SELECT user_id, username, first_name, last_name, email, role, phone, country
     FROM users
     WHERE username = ?
   `;
@@ -51,10 +51,10 @@ async function getAllUsers() {
   return await db.query(sql);
 }
 
-async function createFullUser({ username, email, first_name, last_name, phone, password, role }) {
+async function createFullUser({ username, email, first_name, last_name, phone, password, country, role }) {
   return await db.query(
-    "INSERT INTO users (username, email, first_name, last_name, phone, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [username, email, first_name, last_name, phone, password, role]
+    "INSERT INTO users (username, email, first_name, last_name, phone, password, country, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    [username, email, first_name, last_name, phone, password, country, role]
   );
 }
 

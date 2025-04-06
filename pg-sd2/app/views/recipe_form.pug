@@ -1,0 +1,22 @@
+extends layouts/layoutMinimal
+
+
+block styles
+  link(rel="stylesheet", href="/css/recipe_form.css")
+
+
+block content
+  .form-container
+    h1 Add New Recipe
+
+    form(action="/recipes/new", method="POST", enctype="multipart/form-data")
+      input(type="text", name="title", placeholder="Title", required)
+      textarea(name="description", placeholder="Description", required)
+      textarea(name="ingredients", placeholder="Ingredients", required)
+      textarea(name="steps", placeholder="Preparation Steps", required)
+      select(name="category_id", required)
+        option(value="") -- Choose Category --
+        each cat in categories
+          option(value=cat.category_id)= cat.name
+      input(type="file", name="image", accept="image/*", required)
+      button(type="submit") Submit

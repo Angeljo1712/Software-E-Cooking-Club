@@ -1,23 +1,27 @@
 extends layouts/layout
 
+block styles
+  link(rel="stylesheet", href="/css/recipe-details.css")
+
 block content
-  h1= recipe.title
+  .recipe-container
+    h1= recipe.title
 
-  // 🔹 Display the recipe image
-  if recipe.image_url
-    img(
-      src=`/static/images/${recipe.image_url}`
-      alt=recipe.title
-      width="300"
-      height="200"
-      onerror="this.onerror=null; this.src='/static/images/default.jpg';"
-    )
-  else
-    img(src="/static/images/default.jpg" alt="No image available" width="300" height="200")
+    if recipe.image_url
+      img(
+        src=recipe.image_url
+        alt=recipe.title
+        onerror="this.onerror=null; this.src='/static/images/default.jpg';"
+      )
+    else
+      img(src="/static/images/default.jpg" alt="No image available")
 
-  p Description: #{recipe.description}
-  p Ingredients: #{recipe.ingredients}
-  p Steps: #{recipe.steps}
+    p Description: #{recipe.description}
+    p Ingredients: #{recipe.ingredients}
+    p Steps: #{recipe.steps}
+    p Category: #{recipe.category_name}
 
-  p Category: #{recipe.category_name}
-  a(href="/recipes") 🔙 Back to Recipes
+    if user
+      a.btn(href=`/users/${user.username}`) 🔙 Back to Profile
+    else
+      a.btn(href="/") 🔙 Back to Home

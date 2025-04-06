@@ -32,8 +32,38 @@ async function searchRecipeByTerm(term) {
     return rows[0];
 }
 
+async function getCategories() {
+    const sql = `SELECT category_id, name FROM categories`;
+    return await db.query(sql);
+}
+
+async function insertRecipe({ user_id, title, description, ingredients, steps, category_id, image_url }) {
+    const sql = `
+        INSERT INTO recipes (user_id, title, description, ingredients, steps, category_id, image_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    return await db.query(sql, [user_id, title, description, ingredients, steps, category_id, image_url]);
+}
+
+async function getRecipesWithImage(limit = 6) {
+    const sql = `
+      SELECT recipe_id, title, image_url
+      FROM recipes
+      WHERE image_url IS NOT NULL
+      ORDER BY recipe_id DESC
+      LIMIT ?
+    `;
+    return await db.query(sql, [limit]);
+  }
+
+
+
+
 module.exports = {
     getAllRecipes,
     getRecipeById,
     searchRecipeByTerm,
+    getCategories,
+    insertRecipe,
+    getRecipesWithImage
 };

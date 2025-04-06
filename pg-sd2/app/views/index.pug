@@ -8,74 +8,17 @@ block content
     .hero-text
       h1 Welcome to Cooking Club
       h2 Recipes for all Occasions
-      p
+      
       p Discover, Share, and Enjoy Recipes from Around the World
 
-  
-  h2 Featured Recipe: #{featuredRecipe ? featuredRecipe.title : "No Featured Recipe"}
-  if featuredRecipe
-    p= featuredRecipe.description
-    img(src=featuredRecipe.image_url, alt=featuredRecipe.title)
-    a(href=`/recipe/${featuredRecipe.recipe_id}`) View Recipe
+      h2 Latest Recipes
 
-  h2 Categories
-  .categories
-    if categories && categories.length
-      each category in categories
-        button= category.name
+  .grid-recipes
+    if latestRecipes.length
+      each recipe in latestRecipes
+        .recipe-card
+          a(href=`/recipes/${recipe.recipe_id}`)
+            img.recipe-img(src=recipe.image_url, alt=recipe.title)
+            p.recipe-title= recipe.title
     else
-      p No categories available.
-
-
-  h2 Recommended for You:
-  .recommended
-    if recommendedRecipes && recommendedRecipes.length
-      each recipe in recommendedRecipes
-        p 🍽️= recipe.title
-        a(href=`/recipe/${recipe.recipe_id}`) View
-    else
-      p No recommended recipes available.
-
-  h2 Recent Comments:
-  .comments
-    if recentComments && recentComments.length
-      each comment in recentComments
-        p 🗨️ #{comment.username}: "#{comment.comment_text}"
-    else
-      p No comments available.
-
-
-  h2 Top Community Members:
-  .top-members
-    if topUsers && topUsers.length
-      each user in topUsers
-        p 👤 #{user.username} - #{user.recipe_count} recipes
-    else
-      p No top community members yet.
-
-
-  h2 Community Q&A:
-  .qa
-    if communityQuestions && communityQuestions.length
-      each question in communityQuestions
-        p ❓= question.question
-    else
-      p No questions available.
-
-
-  h2 Cooking Videos:
-  .videos
-    if cookingVideos && cookingVideos.length
-      each video in cookingVideos
-        p ▶️= video.title
-    else
-      p No cooking videos available.
-
-
-  h2 Upcoming Cooking Challenges:
-  .challenges
-    if upcomingChallenges && upcomingChallenges.length
-      each challenge in upcomingChallenges
-        p 🏆= challenge.title
-    else
-      p No upcoming challenges available.
+      p No recipes found.

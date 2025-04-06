@@ -5,6 +5,11 @@ const recipesController = require("../controllers/recipesController");  // Impor
 // 🔹 Route to search for recipes
 router.get("/search", recipesController.searchRecipe);
 
+// 🔹 Route to show form to create new recipe
+router.get("/new", recipesController.showCreateForm);
+
+router.post("/new", recipesController.uploadMiddleware, recipesController.createRecipe);
+
 // 🔹 Route to retrieve all recipes
 router.get("/", recipesController.getAllRecipes);
 

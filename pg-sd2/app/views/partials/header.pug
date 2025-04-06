@@ -8,7 +8,7 @@ header.header-container
 
     .user-controls
       if user
-        span 👤 #{user.username}
+        a(href=`/users/${user.username}`) 👤 #{user.username}
         a(href="/logout") 🚪 Logout
       else
         a(href="/login") 🔐 Log in
@@ -16,8 +16,8 @@ header.header-container
   .nav-bar
     ul
       li: a(href="#") Dinners
-      li: a(href="#") Meals
-      li: a(href="#") Ingredients
-      li: a(href="#") Cuisines
-      li: a(href="#") Features
-      li: a(href="#") About Us
+      li: a(href="#") Vegan Recipes
+      li: a(href="#") Lunchs 
+      li: a(href="#") Breakfast 
+      
+      

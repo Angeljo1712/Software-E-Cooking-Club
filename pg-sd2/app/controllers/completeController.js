@@ -13,7 +13,7 @@ function showForm(req, res) {
 }
 
 async function handleSubmit(req, res) {
-  const { username, first_name, last_name, phone, password } = req.body;
+  const { username, first_name, last_name, phone, password, country } = req.body;
   const email = req.session.verifiedEmail;
 
   try {
@@ -26,6 +26,7 @@ async function handleSubmit(req, res) {
       last_name,
       phone,
       password: hashedPassword,
+      country,
       role: "user",
     });
 

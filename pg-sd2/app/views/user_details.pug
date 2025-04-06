@@ -1,17 +1,25 @@
 extends layouts/layout
 
+block styles
+  link(rel="stylesheet", href="/css/user_details.css")
+
+
 block content
   h1 👤 User Profile
 
   .profile-container
     .profile-header
-      h2=user.username
+      h2= user.username
       p Email: #{user.email}
-      p Name: #{user.first_name} #{user.last_name}
+      p First Name: #{user.first_name}
+      p Last Name #{user.last_name}
       p Role: #{user.role}
+      p Phone: #{user.phone}
+      p Country: #{user.country || "Not provided"}
 
     // 🔹 Uploaded Recipes Section
     h3 Uploaded Recipes:
+    a.upload-btn(href="/recipes/new") ➕ Upload Recipe    
     .recipes-grid
       if uploadedRecipes.length
         each recipe in uploadedRecipes
@@ -21,6 +29,6 @@ block content
             a(href=`/recipes/${recipe.recipe_id}`) View Recipe
       else
         p No uploaded recipes.
+    
 
-    // 🔹 Back to Users List
-    a(href="/users") ⬅ Back to Users List
+    a.back-home(href="/") ⬅ Back to Home

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");  // Import the users controller
 
+
 // 🔹 Route to retrieve a user by their username
 router.get("/:username", usersController.searchUsername);
 
