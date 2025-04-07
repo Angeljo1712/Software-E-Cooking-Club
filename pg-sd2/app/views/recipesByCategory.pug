@@ -1,0 +1,14 @@
+extends layouts/layout
+
+block content
+  h2= categoryName
+
+  .grid-recipes
+    if recipes.length
+      each recipe in recipes
+        .recipe-card
+          img(src=recipe.image_url, alt=recipe.title, width="250")
+          h3= recipe.title
+          a(href=`/recipes/${recipe.recipe_id}`) View Recipe
+    else
+      p No recipes found in this category.

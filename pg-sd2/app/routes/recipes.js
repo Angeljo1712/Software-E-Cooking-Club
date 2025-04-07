@@ -16,4 +16,8 @@ router.get("/", recipesController.getAllRecipes);
 // 🔹 Route to retrieve details of a specific recipe by ID
 router.get("/:id", recipesController.getRecipeById);
 
+// 🔹 Route to get recipes by category ID
+router.get("/category/:id", recipesController.getByCategory);
+
+
 module.exports = router;  // Export the router to be used in the main application

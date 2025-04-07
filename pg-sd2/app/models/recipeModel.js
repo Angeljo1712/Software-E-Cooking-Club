@@ -56,8 +56,22 @@ async function getRecipesWithImage(limit = 6) {
     return await db.query(sql, [limit]);
   }
 
-
-
+  async function getRecipesByCategory(categoryId) {
+    const sql = `
+      SELECT r.recipe_id, r.title, r.description, r.image_url, c.name AS category_name
+      FROM recipes r
+      JOIN categories c ON r.category_id = c.category_id
+      WHERE r.category_id = ?
+    `;
+    return await db.query(sql, [categoryId]);
+  }
+  
+  async function getCategoryNameById(id) {
+    const sql = `SELECT name FROM categories WHERE category_id = ?`;
+    const rows = await db.query(sql, [id]);
+    return rows.length ? rows[0].name : "Unknown";
+  }
+  
 
 module.exports = {
     getAllRecipes,
@@ -65,5 +79,7 @@ module.exports = {
     searchRecipeByTerm,
     getCategories,
     insertRecipe,
-    getRecipesWithImage
+    getRecipesWithImage,
+    getRecipesByCategory,
+    getCategoryNameById
 };

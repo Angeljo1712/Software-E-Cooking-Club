@@ -99,7 +99,23 @@ async function createRecipe(req, res) {
     }
   }
   
+  
+async function getByCategory(req, res) {
+  const categoryId = req.params.id;
+  try {
+    const recipes = await Recipe.getRecipesByCategory(categoryId);
+    const categoryName = await Recipe.getCategoryNameById(categoryId);
 
+    res.render("recipesByCategory", {
+      title: `Recipes - ${categoryName}`,
+      recipes,
+      categoryName
+    });
+  } catch (error) {
+    console.error("❌ Error fetching recipes by category:", error);
+    res.status(500).send("Error fetching recipes by category");
+  }
+}
 
   module.exports = {
     getAllRecipes,
@@ -107,5 +123,6 @@ async function createRecipe(req, res) {
     searchRecipe,
     showCreateForm,
     createRecipe,
+    getByCategory,
     uploadMiddleware: upload.single("image") // ✅ Ahora sí, con coma antes
   };

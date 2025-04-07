@@ -13,12 +13,4 @@ block content
 
       h2 Latest Recipes
 
-  .grid-recipes
-    if latestRecipes.length
-      each recipe in latestRecipes
-        .recipe-card
-          a(href=`/recipes/${recipe.recipe_id}`)
-            img.recipe-img(src=recipe.image_url, alt=recipe.title)
-            p.recipe-title= recipe.title
-    else
-      p No recipes found.
+  
