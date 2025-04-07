@@ -1,9 +1,12 @@
 extends layouts/layout
 
+block styles
+  link(rel="stylesheet", href="/css/hero.css")
+
 block content
   h2= categoryName
 
-  .grid-recipes
+  .grouped-recipes
     if recipes.length
       each recipe in recipes
         .recipe-card

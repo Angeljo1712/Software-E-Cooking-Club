@@ -376,6 +376,7 @@
   font-size: 26px;
   text-align: center;
   margin-bottom: 30px;
+
 }
 
 /* Form styling */
@@ -562,8 +563,13 @@ h1 {
   font-size: 32px;
   text-align: center;
   margin-bottom: 20px;
-  color: #fbf9f9;
+  /* quitar color global o usar color general más neutro */
 }
+
+.hero-title {
+  color: #fff; /* blanco solo para el banner */
+}
+
 
 h3 {
   margin-top: 30px;
@@ -733,18 +739,18 @@ a.back-home:hover {
 .grouped-recipes {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
   justify-content: center;
+  gap: 20px;
   padding: 20px;
 }
 
 .recipe-card {
+  width: 250px;
   background-color: white;
   border: 1px solid #eee;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
   padding: 20px;
-  max-width: 220px;
   text-align: center;
   transition: transform 0.3s ease;
 }
@@ -785,4 +791,58 @@ a.back-home:hover {
 
 .recipe-card a:hover {
   background-color: #d75400;
+}
+
+
+.recipe-title {
+  text-align: center;
+  font-size: 32px;
+  margin: 30px 0 20px;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.recipe-table {
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.recipe-table th, .recipe-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.recipe-table th {
+  background-color: #f56300;
+  color: white;
+  font-weight: bold;
+}
+
+.recipe-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.recipe-table a {
+  color: #f56300;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.recipe-table a:hover {
+  text-decoration: underline;
+}
+
+.recipe-img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.recipe-table th:first-child,
+.recipe-table td:first-child {
+  display: none;
 }

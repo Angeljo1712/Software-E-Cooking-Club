@@ -109,7 +109,8 @@ async function getByCategory(req, res) {
     res.render("recipesByCategory", {
       title: `Recipes - ${categoryName}`,
       recipes,
-      categoryName
+      categoryName,
+      user: req.session.user
     });
   } catch (error) {
     console.error("❌ Error fetching recipes by category:", error);
