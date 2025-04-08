@@ -1,46 +1,47 @@
-require("dotenv").config();                                // Load environment variables from .env file
-const mysql = require('mysql2/promise');                   // Import MySQL library with promise support
+// Import required modules
+const mysql = require("mysql2/promise");                 // MySQL client with Promise support
+const config = require("../config/database");            // Custom database configuration
+const logger = require("../utils/logger");               // Custom logger utility
 
-// Database configuration settings
-const config = {
-  db: {
-    host: process.env.DB_CONTAINER || 'localhost',        // MySQL host (Docker container or localhost)
-    port: process.env.DB_PORT || 3306,                    // MySQL port (default 3306)
-    user: process.env.MYSQL_ROOT_USER || 'root',          // MySQL user
-    password: process.env.MYSQL_ROOT_PASSWORD || 'root',  // MySQL password
-    database: process.env.MYSQL_DATABASE || 'cooking_club', // Database name
-    waitForConnections: true,                             // Enable queueing of connection requests
-    connectionLimit: 10,                                  // Maximum number of connections in the pool
-    queueLimit: 0,                                        // No limit for the request queue
-  },
-};
+// Create a connection pool for efficient query handling
+const pool = mysql.createPool(config);
 
-// Create a connection pool for better performance
-const pool = mysql.createPool(config.db);
-
-// Function to test database connection when the server starts
+// Test database connection when the server starts
 async function testConnection() {
   try {
-    const connection = await pool.getConnection();        // Get a connection from the pool
-    console.log("✅ Connected to MySQL - Database:", config.db.database);
-    connection.release();                                 // Release the connection back to the pool
+    const connection = await pool.getConnection();       // Get a connection from the pool
+    logger.info(`✅ Connected to MySQL - Database: ${config.database}`); // Log success
+    connection.release();                                // Release connection back to the pool
   } catch (error) {
-    console.error("❌ Database connection failed:", error);
-    process.exit(1);                                      // Stop execution if database connection fails
+    logger.error("❌ Database connection failed: " + error.message); // Log error
+    process.exit(1);                                      // Terminate app if DB connection fails
   }
 }
-testConnection();                                         // Execute the connection test
+testConnection(); // Execute the connection test on startup
 
-// Function to execute SQL queries
+// Query execution wrapper for consistent logging and error handling
 async function query(sql, params) {
   try {
-    const [rows] = await pool.execute(sql, params);      // Execute the query and return results
-    return rows;
+    const start = Date.now();                            // Record start time for timing
+    const [rows] = await pool.execute(sql, params);      // Execute SQL query
+    const duration = Date.now() - start;                 // Calculate execution time
+    logger.info(`✅ Query executed in ${duration}ms`);   // Log the duration
+    return rows;                                         // Return query results
   } catch (error) {
-    console.error("❌ SQL query error:", error);
-    throw error;
+    logger.error("❌ SQL query error: " + error.message); // Log error
+    throw error;                                         // Re-throw to handle elsewhere
   }
 }
 
-// Export the query function to be used in other parts of the application
-module.exports = { query };
+// Handle graceful shutdown (e.g., Ctrl+C)
+process.on("SIGINT", async () => {
+  await pool.end();                                      // Close the connection pool
+  logger.info("🛑 MySQL pool closed on shutdown");        // Log pool closure
+  process.exit(0);                                       // Exit process cleanly
+});
+
+// Export the query method and the pool itself
+module.exports = {
+  query,
+  pool
+};

@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 
-// Mostrar formulario para ingresar el email
+// Show form to enter email address
 router.get("/", authController.showRegisterForm);
 
-// Procesar email, verificar si existe y enviar OTP
+// Handle form submission: check if email exists and send OTP
 router.post("/", authController.handleRegister);
 
-module.exports = router;
+module.exports = router; // Export the router to be used in app.js

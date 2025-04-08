@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-// 🔹 Mostrar detalles de un usuario
+// 🔹 Display user details by username
 async function searchUsername(req, res) {
   try {
     const username = req.params.username;
@@ -23,7 +23,7 @@ async function searchUsername(req, res) {
   }
 }
 
-// 🔹 Mostrar lista de todos los usuarios
+// 🔹 Display a list of all users
 async function getAllUsers(req, res) {
   try {
     const users = await User.getAllUsers();

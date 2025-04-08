@@ -1,6 +1,8 @@
+// Import required modules
 const express = require("express");
-const router = express.Router();  // ✅ Define the router correctly
-const db = require("../services/db"); // Ensure the database connection is imported
+const router = express.Router(); // Create a new router instance
 
+const db = require("../services/db"); // Import database service
 
-module.exports = router; // ✅ Correctly export the router
+// Export the router so it can be used in the main application
+module.exports = router;

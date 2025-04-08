@@ -1,13 +1,13 @@
 // Import dependencies
+require("dotenv").config(); // Load environment variables from .env
 const express = require("express");
+const app = express();
 const path = require("path");
 const db = require("./services/db"); // Import MySQL connection
-const session = require("express-session");
+const sessionConfig = require("./middleware/sessionConfig"); // Import session configuration
+const morgan = require("morgan"); // HTTP request logger
 
-
-
-// Import routes from controllers
-const app = express();
+// Import route modules
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const recipesRoutes = require("./routes/recipes");
@@ -17,42 +17,40 @@ const verifyRoutes = require("./routes/verify");
 const completeRoutes = require("./routes/completeRegistration");
 const logoutRoutes = require("./routes/logout");
 
+// Apply session configuration middleware
+app.use(sessionConfig);
 
-
-// Configure Pug as the template engine
+// Configure view engine and static files
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
-app.locals.basedir = app.get("views"); // 🔥 Set the base directory for Pug
+app.locals.basedir = app.get("views"); // Set the base directory for Pug includes
 app.use(express.static(path.join(__dirname, "..", "static")));
 
-
-
-
-app.use(session({
-  secret: "s3cret_c0de_OTP", // Puedes cambiarlo por cualquier valor seguro
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 600000 } // 10 minutos de sesión
-}));
-
-
+// Middleware for logging and parsing requests
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
-// Main route
+// Main homepage route
 app.get("/", (req, res) => {
-    const user = req.session.user; // Esto puede ser undefined si no está logueado
+    const user = req.session.user; // Can be undefined if the user is not logged in
     res.render("index", {
       title: "Home - Cooking Club",
       user
     });
-  });
-  
+});
 
+// Route modules
+app.use("/", indexRoutes);
+app.use("/users", usersRoutes);
+app.use("/recipes", recipesRoutes);
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+app.use("/verify-code", verifyRoutes);
+app.use("/complete-registration", completeRoutes);
+app.use("/logout", logoutRoutes);
 
-// Route to test database connection
+// Route for testing the database connection
 app.get("/db_test", async (req, res) => {
     try {
         const categories = await db.query("SELECT * FROM categories");
@@ -64,31 +62,12 @@ app.get("/db_test", async (req, res) => {
     }
 });
 
-
-
-
-// Import routes from modules
-app.use("/", indexRoutes);
-app.use("/users", usersRoutes);
-app.use("/recipes", recipesRoutes);
-app.use("/login", loginRoutes);
-app.use("/register", registerRoutes);
-app.use("/verify-code", verifyRoutes);
-app.use("/complete-registration", completeRoutes);
-app.use("/logout", logoutRoutes);
-
-
-
-
-// Middleware to handle not found routes
+// Fallback middleware for handling 404 errors
 app.use((req, res) => {
     res.status(404).send("❌ Page not found.");
 });
 
-
-
-
-// Start the server on port 3000
+// Start the server on the specified port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Server running at http://127.0.0.1:${PORT}/`);

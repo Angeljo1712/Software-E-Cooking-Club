@@ -1,12 +1,12 @@
 const db = require("../services/db");
 
-// 🔹 Buscar un usuario por su email
+// 🔹 Find a user by email
 async function findUserByEmail(email) {
   const result = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-  return result[0]; // Devuelve el primer resultado o undefined
+  return result[0]; // Return the first result or undefined
 }
 
-// Guardar OTP temporalmente
+// 🔹 Store OTP temporarily in the database
 async function storeOTP(email, code, expiresAt) {
   return await db.query(
     "INSERT INTO otp_codes (email, code, expires_at) VALUES (?, ?, ?)",
@@ -14,14 +14,12 @@ async function storeOTP(email, code, expiresAt) {
   );
 }
 
-
-
-// 🔹 Crear un nuevo usuario solo con email
+// 🔹 Create a new user with only email
 async function createUser(email) {
   return await db.query("INSERT INTO users (email) VALUES (?)", [email]);
 }
 
-// 🔹 Buscar usuario por username (para el perfil)
+// 🔹 Get user details by username (used in profile page)
 async function getUserByUsername(username) {
   const sql = `
     SELECT user_id, username, first_name, last_name, email, role, phone, country
@@ -32,7 +30,7 @@ async function getUserByUsername(username) {
   return result[0];
 }
 
-// 🔹 Obtener recetas subidas por un usuario
+// 🔹 Get all recipes uploaded by a user
 async function getRecipesByUserId(userId) {
   const sql = `
     SELECT recipe_id, title, image_url
@@ -42,7 +40,7 @@ async function getRecipesByUserId(userId) {
   return await db.query(sql, [userId]);
 }
 
-// 🔹 Obtener todos los usuarios (para listado general)
+// 🔹 Get all users (for admin or listing purposes)
 async function getAllUsers() {
   const sql = `
     SELECT user_id, username, first_name, last_name, email, role
@@ -51,6 +49,7 @@ async function getAllUsers() {
   return await db.query(sql);
 }
 
+// 🔹 Create a full user record (after OTP verification)
 async function createFullUser({ username, email, first_name, last_name, phone, password, country, role }) {
   return await db.query(
     "INSERT INTO users (username, email, first_name, last_name, phone, password, country, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -58,6 +57,7 @@ async function createFullUser({ username, email, first_name, last_name, phone, p
   );
 }
 
+// 🔹 Find user by email or username (used in login)
 async function findByIdentifier(identifier) {
   const users = await db.query(
     "SELECT * FROM users WHERE email = ? OR username = ? LIMIT 1",
@@ -65,8 +65,6 @@ async function findByIdentifier(identifier) {
   );
   return users[0];
 }
-
-
 
 module.exports = {
   findUserByEmail,
