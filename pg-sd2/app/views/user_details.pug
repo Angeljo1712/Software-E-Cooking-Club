@@ -1,0 +1,34 @@
+extends layouts/layout
+
+block styles
+  link(rel="stylesheet", href="/css/user_details.css")
+
+
+block content
+  h1 👤 User Profile
+
+  .profile-container
+    .profile-header
+      h2= user.username
+      p Email: #{user.email}
+      p First Name: #{user.first_name}
+      p Last Name #{user.last_name}
+      p Role: #{user.role}
+      p Phone: #{user.phone}
+      p Country: #{user.country || "Not provided"}
+
+    // 🔹 Uploaded Recipes Section
+    h3 Uploaded Recipes:
+    a.upload-btn(href="/recipes/new") ➕ Upload Recipe    
+    .recipes-grid
+      if uploadedRecipes.length
+        each recipe in uploadedRecipes
+          .recipe-card
+            img(src=recipe.image_url alt=recipe.title)
+            p 🍽️= recipe.title
+            a(href=`/recipes/${recipe.recipe_id}`) View Recipe
+      else
+        p No uploaded recipes.
+    
+
+    a.back-home(href="/") ⬅ Back to Home

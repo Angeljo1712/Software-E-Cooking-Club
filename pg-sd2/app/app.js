@@ -1,48 +1,74 @@
-// Import express.js
+// Import dependencies
+require("dotenv").config(); // Load environment variables from .env
 const express = require("express");
+const app = express();
+const path = require("path");
+const db = require("./services/db"); // Import MySQL connection
+const sessionConfig = require("./middleware/sessionConfig"); // Import session configuration
+const morgan = require("morgan"); // HTTP request logger
 
-// Create express app
-var app = express();
+// Import route modules
+const indexRoutes = require("./routes/index");
+const usersRoutes = require("./routes/users");
+const recipesRoutes = require("./routes/recipes");
+const loginRoutes = require("./routes/login");
+const registerRoutes = require("./routes/register");
+const verifyRoutes = require("./routes/verify");
+const completeRoutes = require("./routes/completeRegistration");
+const logoutRoutes = require("./routes/logout");
 
-// Add static files location
-app.use(express.static("static"));
+// Apply session configuration middleware
+app.use(sessionConfig);
 
-// Get the functions in the db.js file to use
-const db = require('./services/db');
+// Configure view engine and static files
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+app.locals.basedir = app.get("views"); // Set the base directory for Pug includes
+app.use(express.static(path.join(__dirname, "..", "static")));
 
-// Create a route for root - /
-app.get("/", function(req, res) {
-    res.send("Hello world!");
-});
+// Middleware for logging and parsing requests
+app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Create a route for testing the db
-app.get("/db_test", function(req, res) {
-    // Assumes a table called test_table exists in your database
-    sql = 'select * from test_table';
-    db.query(sql).then(results => {
-        console.log(results);
-        res.send(results)
+// Main homepage route
+app.get("/", (req, res) => {
+    const user = req.session.user; // Can be undefined if the user is not logged in
+    res.render("index", {
+      title: "Home - Cooking Club",
+      user
     });
 });
 
-// Create a route for /goodbye
-// Responds to a 'GET' request
-app.get("/goodbye", function(req, res) {
-    res.send("Goodbye world!");
+// Route modules
+app.use("/", indexRoutes);
+app.use("/users", usersRoutes);
+app.use("/recipes", recipesRoutes);
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+app.use("/verify-code", verifyRoutes);
+app.use("/complete-registration", completeRoutes);
+app.use("/logout", logoutRoutes);
+
+// Route for testing the database connection
+app.get("/db_test", async (req, res) => {
+    try {
+        const categories = await db.query("SELECT * FROM categories");
+        console.log("📌 Categories data:", categories);
+        res.json(categories);
+    } catch (error) {
+        console.error("❌ Database connection error:", error);
+        res.status(500).send("Database connection error.");
+    }
 });
 
-// Create a dynamic route for /hello/<name>, where name is any value provided by user
-// At the end of the URL
-// Responds to a 'GET' request
-app.get("/hello/:name", function(req, res) {
-    // req.params contains any parameters in the request
-    // We can examine it in the console for debugging purposes
-    console.log(req.params);
-    //  Retrieve the 'name' parameter and use it in a dynamically generated page
-    res.send("Hello " + req.params.name);
+// Fallback middleware for handling 404 errors
+app.use((req, res) => {
+    res.status(404).send("❌ Page not found.");
 });
 
-// Start server on port 3000
-app.listen(3000,function(){
-    console.log(`Server running at http://127.0.0.1:3000/`);
+// Start the server on the specified port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Server running at http://127.0.0.1:${PORT}/`);
 });

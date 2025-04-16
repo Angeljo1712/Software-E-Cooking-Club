@@ -1,0 +1,27 @@
+extends layouts/layout
+
+block styles
+  link(rel="stylesheet", href="/css/recipe-details.css")
+
+block content
+  .recipe-container
+    h1= recipe.title
+
+    if recipe.image_url
+      img(
+        src=recipe.image_url
+        alt=recipe.title
+        onerror="this.onerror=null; this.src='/static/images/default.jpg';"
+      )
+    else
+      img(src="/static/images/default.jpg" alt="No image available")
+
+    p Description: #{recipe.description}
+    p Ingredients: #{recipe.ingredients}
+    p Steps: #{recipe.steps}
+    p Category: #{recipe.category_name}
+
+    if user
+      a.btn(href=`/users/${user.username}`) 🔙 Back to Profile
+    else
+      a.btn(href="/") 🔙 Back to Home

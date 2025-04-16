@@ -1,0 +1,23 @@
+header.header-container
+  .top-bar
+    a.logo(href="/") Cooking<span style="color:#f56300">Club</span>
+
+    form.search-bar(action="/recipes/search", method="GET")
+      input(type="text", name="query", placeholder="Find a recipe or ingredient")
+      button(type="submit") 🔍
+
+    .user-controls
+      if user
+        a(href=`/users/${user.username}`) 👤 #{user.username}
+        a(href="/logout") 🚪 Logout
+      else
+        a(href="/login") 🔐 Log in
+
+  .nav-bar
+    ul
+      li: a(href="/recipes/category/11") Dinners
+      li: a(href="/recipes/category/2") Vegan Recipes
+      li: a(href="/recipes/category/12") Lunches
+      li: a(href="/recipes/category/9") Breakfast
+      
+      

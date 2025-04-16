@@ -1,0 +1,19 @@
+extends layouts/layoutMinimal
+
+block styles
+  link(rel="stylesheet", href="/css/verify.css")
+
+block content
+  .verify-container
+    .verify-box
+      h1 Verify your Email
+
+      if error
+        p.error-message= error
+
+      form(action="/verify-code", method="POST")
+        label(for="code") Enter your 6-digit code:
+        input(type="text", name="code", maxlength="6", required, placeholder="Enter OTP")
+        button(type="submit") Verify
+
+      p.text-muted.text-center OTP sent to #[strong #{email}]
